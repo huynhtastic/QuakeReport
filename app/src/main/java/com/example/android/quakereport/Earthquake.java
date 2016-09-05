@@ -7,7 +7,7 @@ public class Earthquake {
 
     private double mMagnitude;
     private String mPlace;
-    private String mDate;
+    private long mDate;
 
     /**
      * Constructs new {@link Earthquake} object
@@ -15,7 +15,7 @@ public class Earthquake {
      * @param place place where earthquake occurred
      * @param date date when earthquake occurred
      */
-    public Earthquake(double magnitude, String place, String date) {
+    public Earthquake(double magnitude, String place, long date) {
         mMagnitude = magnitude;
         mPlace = place;
         mDate = date;
@@ -39,9 +39,9 @@ public class Earthquake {
 
     /**
      * Returns when the earthquake took place
-     * @return date; type String
+     * @return date; type long
      */
-    public String getDate() {
+    public long getDate() {
         return mDate;
     }
 }
