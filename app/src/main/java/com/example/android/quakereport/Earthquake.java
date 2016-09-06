@@ -8,6 +8,7 @@ public class Earthquake {
     private double mMagnitude;
     private String mPlace;
     private long mDate;
+    private String mUrl;
 
     /**
      * Constructs new {@link Earthquake} object
@@ -15,10 +16,11 @@ public class Earthquake {
      * @param place place where earthquake occurred
      * @param date date when earthquake occurred
      */
-    public Earthquake(double magnitude, String place, long date) {
+    public Earthquake(double magnitude, String place, long date, String url) {
         mMagnitude = magnitude;
         mPlace = place;
         mDate = date;
+        mUrl = url;
     }
 
     /**
@@ -43,5 +45,13 @@ public class Earthquake {
      */
     public long getDate() {
         return mDate;
+    }
+
+    /**
+     * Returns the USGS url associated with the earthquake
+     * @return url; type String
+     */
+    public String getUrl() {
+        return mUrl;
     }
 }
