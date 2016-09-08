@@ -75,7 +75,6 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
         SimpleDateFormat formatTime = new SimpleDateFormat("h:mm a");
         Date date = new Date(earthquake.getDate());
-        Log.v("date", formatDate.format(date));
         dateText.setText(formatDate.format(date));
         timeText.setText(formatTime.format(date));
 
