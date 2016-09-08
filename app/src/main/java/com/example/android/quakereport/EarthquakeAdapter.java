@@ -3,6 +3,7 @@ package com.example.android.quakereport;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,9 +72,10 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         }
 
         // convert long to date
-        SimpleDateFormat formatDate = new SimpleDateFormat("MMM DD, yyyy");
+        SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
         SimpleDateFormat formatTime = new SimpleDateFormat("h:mm a");
         Date date = new Date(earthquake.getDate());
+        Log.v("date", formatDate.format(date));
         dateText.setText(formatDate.format(date));
         timeText.setText(formatTime.format(date));
 
