@@ -33,11 +33,6 @@ public final class QueryUtils {
     }
 
     public static ArrayList<Earthquake> fetchEarthquakeData(String requestUrl) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         URL url = createUrl(requestUrl);
 
         // get json back
