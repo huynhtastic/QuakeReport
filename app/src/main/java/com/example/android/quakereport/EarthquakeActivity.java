@@ -16,8 +16,11 @@
 package com.example.android.quakereport;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,12 +50,13 @@ public class EarthquakeActivity extends AppCompatActivity
     private TextView mEmptyTextView;
     private ProgressBar mProgress;
 
+    private String mErrorMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        // Create a fake list of earthquake locations.
         // Find a reference to the {@link ListView} in the layout
         mEarthquakeListView = (ListView) findViewById(R.id.list);
         mEmptyTextView = (TextView) findViewById(R.id.empty_text);
@@ -73,8 +77,16 @@ public class EarthquakeActivity extends AppCompatActivity
             }
         });
 
-        LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            mErrorMessage = "No earthquakes found.";
+        } else {
+            mErrorMessage = "No internet connection.";
+        }
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
     }
 
     @Override
@@ -87,7 +99,7 @@ public class EarthquakeActivity extends AppCompatActivity
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
         mProgress.setVisibility(View.GONE);
         Log.v("Earthquakeloader", "onloadfinished called");
-        mEmptyTextView.setText("No earthquakes found.");
+        mEmptyTextView.setText(mErrorMessage);
         mAdapter.clear();
 
 
