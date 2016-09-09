@@ -21,9 +21,12 @@ import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,8 @@ public class EarthquakeActivity extends AppCompatActivity
     private ListView mEarthquakeListView;
     // Create a new {@link ArrayAdapter} of earthquakes
     private EarthquakeAdapter mAdapter;
+    private TextView mEmptyTextView;
+    private ProgressBar mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +55,12 @@ public class EarthquakeActivity extends AppCompatActivity
         // Create a fake list of earthquake locations.
         // Find a reference to the {@link ListView} in the layout
         mEarthquakeListView = (ListView) findViewById(R.id.list);
+        mEmptyTextView = (TextView) findViewById(R.id.empty_text);
+        mProgress = (ProgressBar) findViewById(R.id.loading_spinner);
+
         mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
         mEarthquakeListView.setAdapter(mAdapter);
+        mEarthquakeListView.setEmptyView(mEmptyTextView);
 
         // set listitem click listener to redirect to USGS details page
         mEarthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,12 +79,17 @@ public class EarthquakeActivity extends AppCompatActivity
 
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
+        Log.v("Earthquakeloader", "oncreateloader called");
         return new EarthquakeLoader(this, USGS_QUERY);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        mProgress.setVisibility(View.GONE);
+        Log.v("Earthquakeloader", "onloadfinished called");
+        mEmptyTextView.setText("No earthquakes found.");
         mAdapter.clear();
+
 
         if (earthquakes != null && !earthquakes.isEmpty()) {
             mAdapter.addAll(earthquakes);
@@ -84,6 +98,7 @@ public class EarthquakeActivity extends AppCompatActivity
 
     @Override
     public void onLoaderReset(Loader<List<Earthquake>> loader) {
+        Log.v("Earthquakeloader", "onloadreset called");
         mAdapter.clear();
     }
 
